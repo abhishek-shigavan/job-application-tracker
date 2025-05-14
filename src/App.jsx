@@ -1,10 +1,10 @@
 import './App.css'
-import { RouterProvider } from 'react-router-dom'
+import RoutingModule from './RoutingModule'
 
 function App() {
 
   return (
-    <RouterProvider />
+    <RoutingModule />
   )
 }
 
