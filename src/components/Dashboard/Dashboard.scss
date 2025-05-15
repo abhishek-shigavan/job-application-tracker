@@ -41,9 +41,33 @@
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 .dashboard-jobs-pannel-cnt {
-    width: 100%;
+    width: 90%;
     display: flex;
     justify-content: space-between;
+    flex-wrap: wrap;
+    margin: auto;
+}
+.dashboard-jobs-pannel-col-cnt {
+    width: 250px;
+    margin: 20px 0px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+}
+.dashboard-jobs-pannel-col-header {
+    width: 88%;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 10px auto;
+}
+.dashboard-jobs-pannel-col-counter {
+    width: 30px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 200px;
+    background-color: beige;
 }
 .dashboard-jobs-list-cnt {
     width: 18%;
