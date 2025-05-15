@@ -1,6 +1,7 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Login from "./components/Login/Login";
 import Dashboard from "./components/Dashboard/Dashboard";
+import JobDetails from "./components/JobDetails/JobDetails";
 
 function RoutingModule () {
     const routes = createBrowserRouter([
@@ -11,6 +12,10 @@ function RoutingModule () {
         {
             path: "/dashboard",
             element: <Dashboard/>
+        },
+        {
+            path: "/job/:jobId",
+            element: <JobDetails/>
         }
     ])
     
