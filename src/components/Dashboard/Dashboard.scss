@@ -1,0 +1,31 @@
+.dashboard-main-cnt {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+.dashboard-jobs-pannel-cnt {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+.dashboard-jobs-list-cnt {
+    width: 18%;
+    display: flex;
+    flex-direction: column;
+    align-items: center
+}
+.dashboard-applied-jobs-cnt {
+    @extend .dashboard-jobs-list-cnt;
+}
+.dashboard-interview-jobs-cnt {
+    @extend .dashboard-jobs-list-cnt;
+}
+.dashboard-offer-jobs-cnt {
+    @extend .dashboard-jobs-list-cnt;
+}
+.dashboard-hired-jobs-cnt {
+    @extend .dashboard-jobs-list-cnt;
+}
+.dashboard-rejected-jobs-cnt {
+    @extend .dashboard-jobs-list-cnt;
+}
