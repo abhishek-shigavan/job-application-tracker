@@ -1,6 +1,4 @@
 import { useEffect, useState } from "react"
-import AddJob from "../AddJob/AddJob"
-import Modal from '@mui/material/Modal'
 import { collection, query, where, onSnapshot, updateDoc, doc } from 'firebase/firestore'
 import { db } from "../../firebase"
 import { useAuth } from "../../useAuth"
@@ -11,28 +9,15 @@ import {
 } from '@dnd-kit/sortable'
 import { closestCenter, DndContext, DragOverlay, PointerSensor, useSensor, useSensors } from "@dnd-kit/core"
 import DroppableColumn from "../DNDComponent/DroppableColumn"
-import { useNavigate } from "react-router-dom"
-import Button from '@mui/material/Button'
-import Popper from '@mui/material/Popper'
 import "./Dashboard.scss"
 
 const STATUSES = ['Applied', 'Interview', 'Offer', 'Hired', 'Rejected']
 
 function Dashboard () {
     const { user } = useAuth()
-    const navigate = useNavigate()
     const [jobsList, setJobsList] = useState([])
-    const [openAddJob, setOpenAddJob] = useState(false)
-    const [anchorEl, setAnchorEl] = useState(null)
-    const [userDetails, setUserDetails] = useState(null)
     const [activeId, setActiveId] = useState(null)
     const sensors = useSensors(useSensor(PointerSensor))
-    const open = Boolean(anchorEl)
-
-    useEffect(() => {
-        let userData = localStorage.getItem("userDetails")
-        setUserDetails(JSON.parse(userData))
-    }, [])
 
     useEffect(() => {
         if (!user) return;
@@ -53,9 +38,6 @@ function Dashboard () {
         return () => unsubscribe()
     }, [user])
 
-    const handleModalOpen = () => setOpenAddJob(true)
-    const handleModalClose = () => setOpenAddJob(false)
-
     const handleDragStart = (event) => {
         setActiveId(event.active.id)
     }
@@ -75,25 +57,8 @@ function Dashboard () {
         setActiveId(null)
     }
 
-    const handleLogout = () => {
-        localStorage.removeItem("userDetails")
-        setAnchorEl(null)
-        navigate("/")
-    }
-
     return (
         <div className="dashboard-main-cnt">
-            <div className="dashboard-header-cnt">
-                <Button variant="outlined" sx={{width: "fit-content !important", padding: "5px 20px !important"}} onClick={handleModalOpen}>Add Job</Button>
-                <div className="dashboard-header-avatar-cnt" onClick={(e) => anchorEl ? setAnchorEl(null) : setAnchorEl(e.currentTarget)}>
-                    <span>{userDetails?.displayName.charAt(0)}</span>
-                </div>
-                <Popper open={open} anchorEl={anchorEl} className="dashboard-profile-menu-cnt">
-                    <span>{userDetails?.displayName}</span>
-                    <span>{userDetails?.email}</span>
-                    <Button variant="outlined" sx={{width: "fit-content !important", padding: "5px 20px !important"}} onClick={handleLogout}>Logout</Button>
-                </Popper>
-            </div>
             <DndContext
                 sensors={sensors}
                 collisionDetection={closestCenter}
@@ -132,9 +97,6 @@ function Dashboard () {
                         : null}
                 </DragOverlay>
             </DndContext>
-            <Modal open={openAddJob} onClose={handleModalClose} sx={{height: "100vh", display: "flex"}}>
-                <AddJob closeAddJob={handleModalClose} />
-            </Modal>
         </div>
     )
 }
