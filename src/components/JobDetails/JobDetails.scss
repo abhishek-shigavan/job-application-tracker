@@ -1,4 +1,29 @@
-.job-details-card-cnt {
+.job-details-main-cnt {
+    width: 80%;
     display: flex;
     flex-direction: column;
+    align-items: flex-start;
+    margin: 40px auto;
+}
+.job-details-title-chip {
+    width: fit-content;
+    padding: 5px 10px;
+    border-radius: 8px 8px 0 0;
+    border: 1px solid #ccc;
+    border-bottom: none;
+    margin: 40px 0px 0px 15%;
+}
+.job-details-divider-cnt {
+    width: 70%;
+    margin: auto;
+    border-top: 1px solid #ccc;
+}
+.job-details-card-cnt {
+    width: 60%;
+    max-width: 800px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    margin: 30px auto;
 }
