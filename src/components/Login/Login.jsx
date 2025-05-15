@@ -13,10 +13,8 @@ function Login () {
     const handleLogin = async () => {
         try {
             const loggedUser = await signInWithPopup(auth, provider)
-            const {displayName, email, photoURL} = loggedUser?.user || {displayName: "", email: "", photoURL: ""}
-            localStorage.setItem("name", displayName)
-            localStorage.setItem("email", email)
-            localStorage.setItem("profile", photoURL)
+            const {displayName, email} = loggedUser?.user || {displayName: "", email: ""}
+            localStorage.setItem("userDetails", JSON.stringify({displayName, email}))
             navigate('/dashboard')
         } catch (err) {
             setShowErrMsg(true)
