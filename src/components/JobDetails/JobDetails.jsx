@@ -3,9 +3,9 @@ import { useNavigate, useParams } from "react-router-dom"
 import { doc, getDoc, updateDoc } from 'firebase/firestore'
 import { db } from '../../firebase'
 import MenuItem from '@mui/material/MenuItem'
-import FormControl from '@mui/material/FormControl'
 import Select from '@mui/material/Select'
 import TextField from '@mui/material/TextField'
+import Button from '@mui/material/Button'
 import "./JobDetails.scss"
 
 function JobDetails () {
@@ -26,8 +26,6 @@ function JobDetails () {
             }
           } catch (err) {
             console.error('Error fetching job:', err)
-          } finally {
-            // setLoading(false)
           }
         }
     
@@ -51,17 +49,18 @@ function JobDetails () {
               status: jobDetails.status,
               notes: jobDetails.notes
             })
-            // alert('Job updated successfully')
-            // setEditing(false)
         } catch (err) {
             console.error('Error updating job:', err)
         }
     } 
 
     return (
-        <>
-            <button onClick={() => navigate("/dashboard")}>Dashboard</button>
-            <h1>JobDetails</h1>
+        <div className="job-details-main-cnt">
+            <Button variant="outlined" onClick={() => navigate("/dashboard")}>Go to Dashboard</Button>
+            <div className="job-details-title-chip">
+                <span>Job Details</span>
+            </div>
+            <div className="job-details-divider-cnt"></div>
             {jobDetails &&
                 <div className="job-details-card-cnt">
                     <TextField 
@@ -69,37 +68,37 @@ function JobDetails () {
                         variant="outlined"
                         value={jobDetails.title}
                         onChange={(e) => handleJobDetails({title: e.target.value})}
+                        fullWidth
                     />
                     <TextField 
                         label="Company"
                         variant="outlined"
                         value={jobDetails.company}
                         onChange={(e) => handleJobDetails({company: e.target.value})}
+                        fullWidth
                     />
-                    {/* <FormControl fullWidth> */}
-                        <Select
-                            value={jobDetails.status}
-                            // label="Status"
-                            onChange={handleStatus}
-                        >
-                            <MenuItem value={"Applied"}>Applied</MenuItem>
-                            <MenuItem value={"Interview"}>Interview</MenuItem>
-                            <MenuItem value={"Offer"}>Offer</MenuItem>
-                            <MenuItem value={"Hired"}>Hired</MenuItem>
-                            <MenuItem value={"Rejected"}>Rejected</MenuItem>
-                        </Select>
-                    {/* </FormControl> */}
+                    <Select
+                        value={jobDetails.status}
+                        onChange={handleStatus}
+                        fullWidth
+                    >
+                        <MenuItem value={"Applied"}>Applied</MenuItem>
+                        <MenuItem value={"Interview"}>Interview</MenuItem>
+                        <MenuItem value={"Offer"}>Offer</MenuItem>
+                        <MenuItem value={"Hired"}>Hired</MenuItem>
+                        <MenuItem value={"Rejected"}>Rejected</MenuItem>
+                    </Select>
                     <TextField 
                         label="Notes"
                         variant="outlined"
                         value={jobDetails.notes}
                         onChange={(e) => handleJobDetails({notes: e.target.value})}
+                        fullWidth
                     />
-                    <button>Edit</button>
-                    <button onClick={handleUpdate}>Update</button>
+                    <Button variant="outlined" sx={{width: "fit-content !important", padding: "10px 20px !important"}} onClick={handleUpdate}>Update</Button>
                 </div> 
             }
-        </>
+        </div>
     )
 }
 
