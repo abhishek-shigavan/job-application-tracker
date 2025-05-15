@@ -2,6 +2,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Login from "./components/Login/Login";
 import Dashboard from "./components/Dashboard/Dashboard";
 import JobDetails from "./components/JobDetails/JobDetails";
+import HeaderOutletContainer from "./components/HeaderOutletContainer/HeaderOutletContainer";
 
 function RoutingModule () {
     const routes = createBrowserRouter([
@@ -10,13 +11,20 @@ function RoutingModule () {
             element: <Login/>
         },
         {
-            path: "/dashboard",
-            element: <Dashboard/>
+            path: "/",
+            element: <HeaderOutletContainer/>,
+            children:[
+                {
+                    path: "dashboard",
+                    index: true,
+                    element: <Dashboard/>
+                },
+                {
+                    path: "job/:jobId",
+                    element: <JobDetails/>
+                }
+            ]
         },
-        {
-            path: "/job/:jobId",
-            element: <JobDetails/>
-        }
     ])
     
     return (
