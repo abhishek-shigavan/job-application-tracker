@@ -2,11 +2,12 @@
   font-family: "SF Pro Text";
   src: url("../src/assets/fonts/SFPRODISPLAYREGULAR.woff2") format("woff2");
 }
-
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
   width: 100%;
   min-height: 100vh;
+
+  span {
+    font-family: SF Pro Text;
+  }
 }
