@@ -1,9 +1,35 @@
 .login-main-cnt {
-    width: 60%;
+    width: 100%;
+    height: 100vh;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
-    border: 1px solid black;
-    border-radius: 8px;
+    margin: auto;
+}
+.login-action-btn-banner-cnt {
+    width: 100%;
+    display: flex;
+    margin: auto;
+}
+.login-logo-btn-cnt {
+    width: 35%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin: auto;
+    gap: 20px;
+
+    span {
+        font-size: 56px;
+        font-family: SF Pro Text;
+        font-weight: 600;
+    }
+}
+.login-banner-cnt {
+    width: 60%;
+
+    img {
+        width: 100%;
+    }
 }
