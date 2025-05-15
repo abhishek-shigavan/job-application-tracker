@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react"
 import AddJob from "../AddJob/AddJob"
 import Modal from '@mui/material/Modal'
-import { collection, query, where, orderBy, onSnapshot, updateDoc, doc } from 'firebase/firestore'
+import { collection, query, where, onSnapshot, updateDoc, doc } from 'firebase/firestore'
 import { db } from "../../firebase"
 import { useAuth } from "../../useAuth"
 import JobCard from "../JobCard/JobCard"
 import {
-    arrayMove,
     SortableContext,
     rectSortingStrategy,
 } from '@dnd-kit/sortable'
@@ -47,9 +46,7 @@ function Dashboard () {
             const jobsData = snapshot.docs.map(doc => ({
                 id: doc.id,
                 ...doc.data()
-            }))
-            console.log(jobsData);
-            
+            }))            
             setJobsList(jobsData)
         })
     
@@ -79,6 +76,7 @@ function Dashboard () {
     }
 
     const handleLogout = () => {
+        localStorage.removeItem("userDetails")
         setAnchorEl(null)
         navigate("/")
     }
@@ -102,18 +100,20 @@ function Dashboard () {
                 onDragStart={handleDragStart}
                 onDragEnd={handleDragEnd}
             >
-                <div className="dashboard-jobs-pannel-cnt" style={{ display: 'flex', gap: '1rem' }}>
+                <div className="dashboard-jobs-pannel-cnt">
                     {STATUSES.map(status => (
                         <DroppableColumn id={status} key={status}>
                             <div
                                 id={status}
                                 key={status}
-                                style={{ border: '1px solid #ccc', padding: '1rem', width: '250px', minHeight: '300px' }}
+                                className="dashboard-jobs-pannel-col-cnt"
                             >
-                                <>
-                                    <h3>{status}</h3>
-                                    <span>{jobsList.filter(job => job.status === status).length}</span>
-                                </>
+                                <div className="dashboard-jobs-pannel-col-header">
+                                    <span>{status}</span>
+                                    <div className="dashboard-jobs-pannel-col-counter">
+                                        <span>{jobsList.filter(job => job.status === status).length}</span>
+                                    </div>
+                                </div>
                                 <SortableContext
                                     items={jobsList.filter(job => job.status === status).map(job => job.id)}
                                     strategy={rectSortingStrategy}
