@@ -5,20 +5,22 @@ import { collection, query, where, orderBy, onSnapshot, updateDoc, doc } from 'f
 import { db } from "../../firebase"
 import { useAuth } from "../../useAuth"
 import JobCard from "../JobCard/JobCard"
-import "./Dashboard.scss"
 import {
     arrayMove,
     SortableContext,
     rectSortingStrategy,
 } from '@dnd-kit/sortable'
 import { closestCenter, DndContext, DragOverlay, PointerSensor, useSensor, useSensors } from "@dnd-kit/core"
-import SortableJobCard from "../DNDComponent/SortableJobCard"
-import DroppableColumn from "../../DroppableColumn"
+import DroppableColumn from "../DNDComponent/DroppableColumn"
+import { useNavigate } from "react-router-dom"
+import Button from '@mui/material/Button'
+import "./Dashboard.scss"
 
 const STATUSES = ['Applied', 'Interview', 'Offer', 'Hired', 'Rejected']
 
 function Dashboard () {
     const { user } = useAuth()
+    const navigate = useNavigate()
     const [jobsList, setJobsList] = useState([])
     const [openAddJob, setOpenAddJob] = useState(false)
 
@@ -69,10 +71,16 @@ function Dashboard () {
         setActiveId(null)
     }
 
+    const handleLogout = () => {
+        navigate("/")
+    }
+
     return (
         <div className="dashboard-main-cnt">
-            <h1>Dashboard</h1>
-            <button onClick={handleModalOpen}>Add job</button>
+            <div className="dashboard-header-cnt">
+                <Button variant="outlined" sx={{width: "fit-content !important", padding: "5px 20px !important"}} onClick={handleModalOpen}>Add Job</Button>
+                <Button variant="outlined" sx={{width: "fit-content !important", padding: "5px 20px !important", margin: "20px !important"}} onClick={handleLogout}>Logout</Button>
+            </div>
             <DndContext
                 sensors={sensors}
                 collisionDetection={closestCenter}
@@ -87,13 +95,16 @@ function Dashboard () {
                                 key={status}
                                 style={{ border: '1px solid #ccc', padding: '1rem', width: '250px', minHeight: '300px' }}
                             >
-                                <h3>{status}</h3>
+                                <>
+                                    <h3>{status}</h3>
+                                    <span>{jobsList.filter(job => job.status === status).length}</span>
+                                </>
                                 <SortableContext
                                     items={jobsList.filter(job => job.status === status).map(job => job.id)}
                                     strategy={rectSortingStrategy}
                                 >
                                     {jobsList.filter(job => job.status === status).map(job => (
-                                        <SortableJobCard key={job.id} jobDetails={job} />
+                                        <JobCard key={job.id} jobDetails={job} />
                                     ))}
                                 </SortableContext>
                             </div>
@@ -106,7 +117,7 @@ function Dashboard () {
                         : null}
                 </DragOverlay>
             </DndContext>
-            <Modal open={openAddJob} onClose={handleModalClose}>
+            <Modal open={openAddJob} onClose={handleModalClose} sx={{height: "100vh", display: "flex"}}>
                 <AddJob closeAddJob={handleModalClose} />
             </Modal>
         </div>
