@@ -4,6 +4,12 @@
     flex-direction: column;
     gap: 20px;
 }
+.dashboard-loader-msg-cnt {
+    display: flex;
+    height: 300px;
+    align-items: center;
+    justify-content: center;
+}
 .dashboard-jobs-pannel-cnt {
     width: 90%;
     display: flex;
