@@ -49,6 +49,7 @@ function JobDetails () {
               status: jobDetails.status,
               notes: jobDetails.notes
             })
+            navigate("/dashboard")
         } catch (err) {
             console.error('Error updating job:', err)
         }
