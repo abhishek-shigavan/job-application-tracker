@@ -27,7 +27,7 @@ function JobCard ({ jobDetails }) {
                 <span>{jobDetails?.status}</span>
                 <span>Applied at {jobCreatedAt}</span>
             </div>
-            <Button variant="outlined" sx={{width: "fit-content !important", padding: "5px 20px !important"}} onClick={handleJobCard}>See Details</Button>
+            <Button variant="outlined" sx={{width: "fit-content !important", padding: "5px 20px !important"}} onClick={handleJobCard}>Update Details</Button>
         </div>
     )
 }
