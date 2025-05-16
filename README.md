@@ -1,12 +1,50 @@
-# React + Vite
+# Job Application Tracker
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Job Application Tracker is a web application that allows users to manage and track their job applications efficiently. Users can log in using their Google account, add new jobs, update job statuses through drag-and-drop between columns, and edit job details when needed. Jobs are displayed in columns based on their current status.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Google Authentication**
+  - Users can securely log in using their Google account.
+  - Firebase Authentication is used for handling sign-in and sign-out functionality.
 
-## Expanding the ESLint configuration
+- **Protected Routes**
+  - Only authenticated users can access the dashboard and job-related pages.
+  - If an unauthenticated user tries to access a protected route, they are redirected to the login page.
+  
+- **Add New Job**
+  - Users can add job applications with relevant details through a modal form.
+  - Newly added jobs are immediately displayed under the selected status column.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- **Drag-and-Drop for Status Management**
+  - Job cards can be dragged and dropped between different status columns (e.g., Applied, Interview, Offer, Hired, Rejected).
+  - This updates the job’s status in real-time in Firestore.
+
+- **Update Job Details**
+  - Users can update job information by clicking on a job card and modifying the details.
+  - All updates are persisted to Firestore.
+
+- **Real-Time Job Display**
+  - Jobs are fetched from Firestore using the `jobs` collection, filtered by the currently authenticated user.
+  - Jobs are categorized and displayed in different columns based on their status.
+  - The UI updates in real-time as data changes in Firestore.
+
+## Technologies Used
+
+### Libraries & Tools
+- **Authentication**: Firebase Auth (Google Sign-In)
+- **Database**: Firestore (Cloud Firestore)
+- **UI Library**: Material UI
+- **Drag & Drop**: DnD Kit
+
+### Styling
+- **SCSS**
+
+## Functionalities
+
+- User login using Google account
+- Add a new job via modal
+- View jobs in columns based on their status
+- Drag and drop jobs between status columns to update their state
+- Update job details via a detailed view
+- Real-time syncing of jobs with Firestore
