@@ -23,6 +23,7 @@ function AddJob ({closeAddJob}) {
     const handleStatus = (e) => setJobDetails({...jobDetails, status: e.target.value })
 
     const handleAddJob = async() => {
+        closeAddJob()
         try {
             await addDoc(collection(db, 'jobs'), {
                 ...jobDetails,
@@ -32,7 +33,6 @@ function AddJob ({closeAddJob}) {
         } catch (error) {
             console.error('Error adding job:', error)
         }
-        closeAddJob()
     }
 
     return (
