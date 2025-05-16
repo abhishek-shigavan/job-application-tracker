@@ -23,11 +23,9 @@ function Dashboard () {
     const sensors = useSensors(useSensor(PointerSensor))
 
     useEffect(() => {
-        setLoading(false)
         if (!user) {
-            setNoData(true)
             return
-        }    
+        }
         const q = query(
             collection(db, 'jobs'),
             where('owner', '==', user?.uid)
@@ -38,8 +36,12 @@ function Dashboard () {
                 id: doc.id,
                 ...doc.data()
             }))
-            console.log(jobsData);
-            setJobsList(jobsData)
+            setLoading(false)
+            if(jobsData?.length) {
+                setJobsList(jobsData) 
+            } else {
+                setNoData(true)
+            }
         })
     
         return () => unsubscribe()
