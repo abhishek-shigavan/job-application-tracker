@@ -9,6 +9,7 @@ import {
 } from '@dnd-kit/sortable'
 import { closestCenter, DndContext, DragOverlay, PointerSensor, useSensor, useSensors } from "@dnd-kit/core"
 import DroppableColumn from "../DNDComponent/DroppableColumn"
+import CircularProgress from '@mui/material/CircularProgress'
 import "./Dashboard.scss"
 
 const STATUSES = ['Applied', 'Interview', 'Offer', 'Hired', 'Rejected']
@@ -17,11 +18,16 @@ function Dashboard () {
     const { user } = useAuth()
     const [jobsList, setJobsList] = useState([])
     const [activeId, setActiveId] = useState(null)
+    const [loading, setLoading] = useState(true)
+    const [noData, setNoData] = useState(false)
     const sensors = useSensors(useSensor(PointerSensor))
 
     useEffect(() => {
-        if (!user) return;
-    
+        setLoading(false)
+        if (!user) {
+            setNoData(true)
+            return
+        }    
         const q = query(
             collection(db, 'jobs'),
             where('owner', '==', user?.uid)
@@ -31,7 +37,8 @@ function Dashboard () {
             const jobsData = snapshot.docs.map(doc => ({
                 id: doc.id,
                 ...doc.data()
-            }))            
+            }))
+            console.log(jobsData);
             setJobsList(jobsData)
         })
     
@@ -59,44 +66,49 @@ function Dashboard () {
 
     return (
         <div className="dashboard-main-cnt">
-            <DndContext
-                sensors={sensors}
-                collisionDetection={closestCenter}
-                onDragStart={handleDragStart}
-                onDragEnd={handleDragEnd}
-            >
-                <div className="dashboard-jobs-pannel-cnt">
-                    {STATUSES.map(status => (
-                        <DroppableColumn id={status} key={status}>
-                            <div
-                                id={status}
-                                key={status}
-                                className="dashboard-jobs-pannel-col-cnt"
-                            >
-                                <div className="dashboard-jobs-pannel-col-header">
-                                    <span>{status}</span>
-                                    <div className="dashboard-jobs-pannel-col-counter">
-                                        <span>{jobsList.filter(job => job.status === status).length}</span>
-                                    </div>
-                                </div>
-                                <SortableContext
-                                    items={jobsList.filter(job => job.status === status).map(job => job.id)}
-                                    strategy={rectSortingStrategy}
+            {loading ? <div className="dashboard-loader-msg-cnt">
+                    <CircularProgress/>
+                </div> 
+                : noData ? <div className="dashboard-loader-msg-cnt"><span>No jobs found.</span></div>
+                : <DndContext
+                    sensors={sensors}
+                    collisionDetection={closestCenter}
+                    onDragStart={handleDragStart}
+                    onDragEnd={handleDragEnd}
+                >
+                    <div className="dashboard-jobs-pannel-cnt">
+                        {STATUSES.map(status => (
+                            <DroppableColumn id={status} key={status}>
+                                <div
+                                    id={status}
+                                    key={status}
+                                    className="dashboard-jobs-pannel-col-cnt"
                                 >
-                                    {jobsList.filter(job => job.status === status).map(job => (
-                                        <JobCard key={job.id} jobDetails={job} />
-                                    ))}
-                                </SortableContext>
-                            </div>
-                        </DroppableColumn>
-                    ))}
-                </div>
-                <DragOverlay>
-                    {activeId ? 
-                        <JobCard jobDetails={jobsList.find(job => job.id === activeId)} />
-                        : null}
-                </DragOverlay>
-            </DndContext>
+                                    <div className="dashboard-jobs-pannel-col-header">
+                                        <span>{status}</span>
+                                        <div className="dashboard-jobs-pannel-col-counter">
+                                            <span>{jobsList.filter(job => job.status === status).length}</span>
+                                        </div>
+                                    </div>
+                                    <SortableContext
+                                        items={jobsList.filter(job => job.status === status).map(job => job.id)}
+                                        strategy={rectSortingStrategy}
+                                    >
+                                        {jobsList.filter(job => job.status === status).map(job => (
+                                            <JobCard key={job.id} jobDetails={job} />
+                                        ))}
+                                    </SortableContext>
+                                </div>
+                            </DroppableColumn>
+                        ))}
+                    </div>
+                    <DragOverlay>
+                        {activeId ? 
+                            <JobCard jobDetails={jobsList.find(job => job.id === activeId)} />
+                            : null}
+                    </DragOverlay>
+                </DndContext>
+            }
         </div>
     )
 }
