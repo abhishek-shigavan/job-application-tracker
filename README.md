@@ -11,7 +11,7 @@ Job Application Tracker is a web application that allows users to manage and tra
 - **Protected Routes**
   - Only authenticated users can access the dashboard and job-related pages.
   - If an unauthenticated user tries to access a protected route, they are redirected to the login page.
-  
+
 - **Add New Job**
   - Users can add job applications with relevant details through a modal form.
   - Newly added jobs are immediately displayed under the selected status column.
@@ -48,3 +48,33 @@ Job Application Tracker is a web application that allows users to manage and tra
 - Drag and drop jobs between status columns to update their state
 - Update job details via a detailed view
 - Real-time syncing of jobs with Firestore
+
+## Deployment
+
+### Hosting on Vercel
+
+The project can be easily deployed on [Vercel](https://vercel.com/). Follow the steps below:
+
+1. **Push to GitHub**
+   - Ensure your project code is committed and pushed to a GitHub repository.
+
+2. **Setup on Vercel**
+   - Go to [vercel.com](https://vercel.com/) and sign in with your GitHub account.
+   - Click on **"Add New Project"** and import your repository.
+   - Configure the build settings if needed:
+     - **Framework Preset**: React
+     - **Build Command**: `npm run build`
+     - **Output Directory**: `dist` or `build` (depending on your setup)
+
+3. **Environment Variables**
+   - In the project dashboard on Vercel, go to **Settings > Environment Variables**.
+   - Add your Firebase configuration values (e.g., `VITE_API_KEY`, `VITE_AUTH_DOMAIN`, etc.) as environment variables.
+   - Ensure these are prefixed with `VITE_` if you're using Vite.
+
+4. **Trigger a Build**
+   - After setting the environment variables, Vercel will automatically deploy your site.
+   - You can also trigger a manual redeploy from the Vercel dashboard.
+
+5. **Live Preview**
+   - Once deployed, Vercel will provide a live URL for your project.
+   - You can also set up a custom domain if needed.
