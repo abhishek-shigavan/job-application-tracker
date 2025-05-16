@@ -1,7 +1,6 @@
-import { useEffect, useState } from "react"
-import { collection, query, where, onSnapshot, updateDoc, doc } from 'firebase/firestore'
+import { useState } from "react"
+import { updateDoc, doc } from 'firebase/firestore'
 import { db } from "../../firebase"
-import { useAuth } from "../../hooks/useAuth"
 import JobCard from "../JobCard/JobCard"
 import {
     SortableContext,
@@ -11,41 +10,14 @@ import { closestCenter, DndContext, DragOverlay, PointerSensor, useSensor, useSe
 import DroppableColumn from "../DNDComponent/DroppableColumn"
 import CircularProgress from '@mui/material/CircularProgress'
 import "./Dashboard.scss"
+import { useOutletContext } from "react-router-dom"
 
 const STATUSES = ['Applied', 'Interview', 'Offer', 'Hired', 'Rejected']
 
 function Dashboard () {
-    const { user } = useAuth()
-    const [jobsList, setJobsList] = useState([])
+    const { jobsList, loading, noData } = useOutletContext()
     const [activeId, setActiveId] = useState(null)
-    const [loading, setLoading] = useState(true)
-    const [noData, setNoData] = useState(false)
     const sensors = useSensors(useSensor(PointerSensor))
-
-    useEffect(() => {
-        if (!user) {
-            return
-        }
-        const q = query(
-            collection(db, 'jobs'),
-            where('owner', '==', user?.uid)
-        )
-    
-        const unsubscribe = onSnapshot(q, (snapshot) => {
-            const jobsData = snapshot.docs.map(doc => ({
-                id: doc.id,
-                ...doc.data()
-            }))
-            setLoading(false)
-            if(jobsData?.length) {
-                setJobsList(jobsData) 
-            } else {
-                setNoData(true)
-            }
-        })
-    
-        return () => unsubscribe()
-    }, [user])
 
     const handleDragStart = (event) => {
         setActiveId(event.active.id)

@@ -4,19 +4,52 @@ import AddJob from "../AddJob/AddJob"
 import Modal from '@mui/material/Modal'
 import Button from '@mui/material/Button'
 import Popper from '@mui/material/Popper'
+import { useAuth } from "../../hooks/useAuth"
+import { collection, query, where, onSnapshot } from 'firebase/firestore'
+import { db } from "../../firebase"
 import "./HeaderOutletContainer.scss"
 
 function HeaderOutletContainer () {
+    const { user } = useAuth()
     const [userDetails, setUserDetails] = useState(null)
     const [openAddJob, setOpenAddJob] = useState(false)
     const [anchorEl, setAnchorEl] = useState(null)
     const open = Boolean(anchorEl)
     const navigate = useNavigate()
 
+    const [jobsList, setJobsList] = useState([])
+    const [loading, setLoading] = useState(true)
+    const [noData, setNoData] = useState(false)
+
     useEffect(() => {
         let userData = localStorage.getItem("userDetails")
         setUserDetails(JSON.parse(userData))
     }, [])
+
+    useEffect(() => {
+        if (!user) {
+            return
+        }
+        const q = query(
+            collection(db, 'jobs'),
+            where('owner', '==', user?.uid)
+        )
+    
+        const unsubscribe = onSnapshot(q, (snapshot) => {
+            const jobsData = snapshot.docs.map(doc => ({
+                id: doc.id,
+                ...doc.data()
+            }))
+            setLoading(false)
+            if(jobsData?.length) {
+                setJobsList(jobsData) 
+            } else {
+                setNoData(true)
+            }
+        })
+    
+        return () => unsubscribe()
+    }, [user])
 
     const handleModalOpen = () => setOpenAddJob(true)
     const handleModalClose = () => setOpenAddJob(false)
@@ -41,7 +74,7 @@ function HeaderOutletContainer () {
                 </Popper>
             </div>
             <div className="outlet-cnt">
-                <Outlet/>
+                <Outlet context={{ jobsList, loading, noData, setJobsList }} />
             </div>
             <Modal open={openAddJob} onClose={handleModalClose} sx={{height: "100vh", display: "flex"}}>
                 <AddJob closeAddJob={handleModalClose} />
