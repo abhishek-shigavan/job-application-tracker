@@ -3,8 +3,9 @@ import { useNavigate } from "react-router-dom"
 import { signInWithPopup } from 'firebase/auth'
 import Button from '@mui/material/Button'
 import Snackbar from '@mui/material/Snackbar'
-import "./Login.scss"
 import { useState } from 'react'
+import logo from '../../assets/jobtracklogo.png'
+import "./Login.scss"
 
 function Login () {
     const navigate = useNavigate()
@@ -29,7 +30,7 @@ function Login () {
                     <Button variant="text" sx={{width: "fit-content !important", padding: "5px 10px !important"}} onClick={handleLogin}>Sign in with Google</Button>
                 </div>
                 <div className="login-banner-cnt">
-                    <img src="./src/assets/jobtracklogo.png" alt="app baner"/>
+                    <img src={logo} alt="app baner"/>
                 </div>
             </div>
             <Snackbar
