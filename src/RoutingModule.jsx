@@ -3,6 +3,7 @@ import Login from "./components/Login/Login";
 import Dashboard from "./components/Dashboard/Dashboard";
 import JobDetails from "./components/JobDetails/JobDetails";
 import HeaderOutletContainer from "./components/HeaderOutletContainer/HeaderOutletContainer";
+import ProtectedRoute from "./ProtectedRoute";
 
 function RoutingModule () {
     const routes = createBrowserRouter([
@@ -12,7 +13,7 @@ function RoutingModule () {
         },
         {
             path: "/",
-            element: <HeaderOutletContainer/>,
+            element: <ProtectedRoute Component={<HeaderOutletContainer/>} />,
             children:[
                 {
                     path: "dashboard",
