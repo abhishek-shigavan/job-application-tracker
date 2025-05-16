@@ -1,6 +1,6 @@
 import { addDoc, collection, serverTimestamp } from "firebase/firestore"
 import { db } from "../../firebase"
-import { useAuth } from "../../useAuth"
+import { useAuth } from "../../hooks/useAuth"
 import TextField from '@mui/material/TextField'
 import MenuItem from '@mui/material/MenuItem'
 import Select from '@mui/material/Select'

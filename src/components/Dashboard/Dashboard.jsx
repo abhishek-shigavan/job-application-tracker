@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { collection, query, where, onSnapshot, updateDoc, doc } from 'firebase/firestore'
 import { db } from "../../firebase"
-import { useAuth } from "../../useAuth"
+import { useAuth } from "../../hooks/useAuth"
 import JobCard from "../JobCard/JobCard"
 import {
     SortableContext,
