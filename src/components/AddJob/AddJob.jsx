@@ -41,7 +41,7 @@ function AddJob ({closeAddJob}) {
                 label="Role"
                 variant="outlined"
                 fullWidth
-                onChange={(e) => handleJobDetails({role: e.target.value})}
+                onChange={(e) => handleJobDetails({title: e.target.value})}
             />
             <TextField
                 label="Company"
